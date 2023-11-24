@@ -63,11 +63,13 @@ class ProductWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 300,
+            top: 305,
             left: 95,
             child: CircleIcon(
               iconData: Icons.add,
               onPressedFunc: () {
+                // add bloc
+                //and put the function inside the on addevent bloc
                 addItemToCart(watch);
                 Navigator.push(
                   context,

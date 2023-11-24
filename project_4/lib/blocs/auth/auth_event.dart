@@ -1,10 +1,16 @@
 abstract class AuthEvent {}
 
-// class SignupEvent {
-//   String? name;
-//   String? email;
-//   String? password;
-//   String? confirmPassword;
+class SigninEvent extends AuthEvent {
+  final String? email;
+  final String? password;
 
-//   SignupEvent();
-// }
+  SigninEvent(this.email, this.password);
+}
+
+class SignupEvent extends AuthEvent {
+  final String? name;
+  final String? email;
+  final String? password;
+
+  SignupEvent(this.name, this.email, this.password);
+}

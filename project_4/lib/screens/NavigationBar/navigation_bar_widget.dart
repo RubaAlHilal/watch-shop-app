@@ -41,10 +41,11 @@ class _BottomNavBarState extends State<BottomNavBar>
       extendBody: true,
       body: screens[_selectedTab.index],
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.only(bottom: 50),
         child: Visibility(
           visible: _selectedTab != _SelectedTab.order,
           child: DotNavigationBar(
+            enableFloatingNavBar: true,
             backgroundColor: const Color(0xfffccf78),
             margin: const EdgeInsets.only(left: 10, right: 10),
             currentIndex: _SelectedTab.values.indexOf(_selectedTab),

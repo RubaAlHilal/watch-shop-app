@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:project_4/blocs/auth/auth_bloc.dart';
+import 'package:project_4/blocs/auth/auth_event.dart';
+import 'package:project_4/blocs/auth/auth_state.dart';
 import 'package:project_4/screens/NavigationBar/navigation_bar_widget.dart';
 import 'package:project_4/screens/sign_up_screen.dart';
 import 'package:project_4/widgets/elevated_button.dart';
@@ -50,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 300),
+                    padding: EdgeInsets.only(top: 285),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -100,18 +104,35 @@ class _SignInScreenState extends State<SignInScreen> {
                           'Forgot Password?',
                           style:
                               TextStyle(color: Color.fromARGB(255, 2, 32, 84)),
-                        )
+                        ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 32),
-                    child: CustomElevatedButton(
-                      text: 'Sign in',
-                      color: const Color(0xfffccf78),
-                      onPressedFunc: () {
-                        checkUserSignInInfo(context);
+                    padding: const EdgeInsets.only(top: 15),
+                    child: BlocListener<AuthBloc, AuthState>(
+                      listener: (context, state) {
+                        // DONE
+                        if (state is SigninState) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BottomNavBar()),
+                              (route) => false);
+                        } else if (state is ErrorState) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)));
+                        }
                       },
+                      child: CustomElevatedButton(
+                        text: 'Sign in',
+                        color: const Color(0xfffccf78),
+                        onPressedFunc: () {
+                          // DONE
+                          context.read<AuthBloc>().add(SigninEvent(
+                              emailController.text, passwordController.text));
+                        },
+                      ),
                     ),
                   ),
                   const Padding(
@@ -135,10 +156,10 @@ class _SignInScreenState extends State<SignInScreen> {
                               'assets/images/g.PNG',
                               height: 25,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
-                            Text(
+                            const Text(
                               'Sign in with Google',
                               style: TextStyle(color: Colors.black),
                             ),
@@ -153,19 +174,20 @@ class _SignInScreenState extends State<SignInScreen> {
                         const Text('New to ADS Watch?'),
                         Padding(
                           padding: const EdgeInsets.only(left: 4),
-                          child: InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen(),
-                                )),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 2, 32, 84)),
-                            ),
-                          ),
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignUpScreen(),
+                                    ));
+                              },
+                              child: const Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 2, 32, 84)),
+                              )),
                         )
                       ],
                     ),
@@ -177,36 +199,5 @@ class _SignInScreenState extends State<SignInScreen> {
         ]),
       ),
     );
-  }
-
-  void checkUserSignInInfo(BuildContext context) {
-    List doesExists = [];
-    if (emailController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please write your email")));
-    } else if (passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please write your password")));
-    } else {
-      usersList.map((e) {
-        if (emailController.text.trim().toLowerCase() ==
-                e.email!.toLowerCase() &&
-            passwordController.text.trim().toLowerCase() ==
-                e.password!.toLowerCase()) {
-          doesExists.add(true);
-          currentUser = e;
-          loggedInUsers.add(e);
-
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const BottomNavBar()),
-              (route) => false);
-        }
-      }).toList();
-      if (!doesExists.contains(true)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("This Account does not exist")));
-      }
-    }
   }
 }

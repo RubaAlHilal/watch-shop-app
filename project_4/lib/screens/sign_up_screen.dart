@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:project_4/models/user_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_4/blocs/auth/auth_bloc.dart';
+import 'package:project_4/blocs/auth/auth_event.dart';
+import 'package:project_4/blocs/auth/auth_state.dart';
 import 'package:project_4/screens/sign_in_screen.dart';
 import 'package:project_4/widgets/elevated_button.dart';
 import 'package:project_4/widgets/text_field.dart';
-
-import '../data/global_data.dart';
 import 'NavigationBar/navigation_bar_widget.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController(),
+        nameController = TextEditingController(),
+        passwordController = TextEditingController();
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(children: [
@@ -83,12 +79,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 32),
-                    child: CustomElevatedButton(
-                      text: 'Sign Up',
-                      color: const Color(0xfffccf78),
-                      onPressedFunc: () {
-                        checkUserSignUpInfo(context);
+                    child: BlocListener<AuthBloc, AuthState>(
+                      listener: (context, state) {
+                        // DONE!!!!!!!
+                        if (state is SignupState) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BottomNavBar()),
+                              (route) => false);
+                        } else if (state is ErrorState) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)));
+                        }
                       },
+                      child: CustomElevatedButton(
+                        text: 'Sign Up',
+                        color: const Color(0xfffccf78),
+                        onPressedFunc: () {
+                          // DONE!!!!!!!
+                          context.read<AuthBloc>().add(SignupEvent(
+                              nameController.text,
+                              emailController.text,
+                              passwordController.text));
+                        },
+                      ),
                     ),
                   ),
                   Padding(
@@ -99,20 +114,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const Text('Joined us before?'),
                         Padding(
                           padding: const EdgeInsets.only(left: 4),
-                          child: InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SignInScreen(),
-                                )),
-                            child: const Text(
-                              'sign in',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 2, 32, 84),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        )
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignInScreen(),
+                                    ));
+                              },
+                              child: const Text(
+                                'sign in',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 2, 32, 84),
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        ),
                       ],
                     ),
                   )
@@ -123,39 +139,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ]),
       ),
     );
-  }
-
-  void checkUserSignUpInfo(BuildContext context) {
-    List doesExists = [];
-    if (emailController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please write your email")));
-    } else if (passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please write your password")));
-    } else {
-      usersList.map((e) {
-        if (e.email!.contains(emailController.text.trim().toLowerCase())) {
-          doesExists.add(true);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("This Email already have an account")));
-        }
-      }).toList();
-      if (!doesExists.contains(true)) {
-        currentUser = User(
-            address: [],
-            userAvatar: "",
-            email: emailController.text.trim(),
-            password: passwordController.text.trim(),
-            mobileNumber: '',
-            name: nameController.text.trim());
-        loggedInUsers.add(currentUser);
-        usersList.add(currentUser);
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const BottomNavBar()),
-            (route) => false);
-      }
-    }
   }
 }
