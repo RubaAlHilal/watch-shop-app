@@ -11,8 +11,7 @@ class AddItemEvent extends CartEvent {
 }
 
 class AddItemFromDetailsEvent extends CartEvent {
-  final int count;
-  AddItemFromDetailsEvent(super.watch, this.count);
+  AddItemFromDetailsEvent(super.watch);
 }
 
 class IncreseEvent extends CartEvent {
