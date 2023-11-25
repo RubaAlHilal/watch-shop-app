@@ -1,47 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:project_4/blocs/auth/auth_bloc.dart';
 import 'package:project_4/blocs/auth/auth_event.dart';
 import 'package:project_4/blocs/auth/auth_state.dart';
+import 'package:project_4/data/global_data.dart';
+import 'package:project_4/data/user_data_set.dart';
+import 'package:project_4/models/user_model.dart';
 import 'package:project_4/screens/NavigationBar/navigation_bar_widget.dart';
 import 'package:project_4/screens/sign_up_screen.dart';
 import 'package:project_4/widgets/elevated_button.dart';
-
-import '../data/global_data.dart';
-import '../data/user_data_set.dart';
-import '../models/user_model.dart';
 import '../widgets/text_field.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
-  @override
-  void initState() {
-    if (usersList.isEmpty) {
-      for (var users in usersDataSet) {
-        usersList.add(User(
-            address: users["address"],
-            userAvatar: users["userAvatar"],
-            email: users["email"],
-            password: users["password"],
-            mobileNumber: users["mobileNumber"],
-            name: users["name"]));
-      }
-    }
-    super.initState();
-  }
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController(),
+        passwordController = TextEditingController();
+
+    // getUsers() {
+    //   if (usersList.isEmpty) {
+    //     for (var users in usersDataSet) {
+    //       usersList.add(User(
+    //           address: users["address"],
+    //           userAvatar: users["userAvatar"],
+    //           email: users["email"],
+    //           password: users["password"],
+    //           mobileNumber: users["mobileNumber"],
+    //           name: users["name"]));
+    //     }
+    //   }
+    // }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -113,15 +104,15 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: BlocListener<AuthBloc, AuthState>(
                       listener: (context, state) {
                         // DONE
-                        if (state is SigninState) {
+                        if (state is ErrorState) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)));
+                        } else if (state is SigninState) {
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const BottomNavBar()),
                               (route) => false);
-                        } else if (state is ErrorState) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.message)));
                         }
                       },
                       child: CustomElevatedButton(
@@ -200,4 +191,35 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+
+  // void checkUserSignInInfo(BuildContext context) {
+  //   List doesExists = [];
+  //   if (emailController.text.isEmpty) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text("Please write your email")));
+  //   } else if (passwordController.text.isEmpty) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text("Please write your password")));
+  //   } else {
+  //     usersList.map((e) {
+  //       if (emailController.text.trim().toLowerCase() ==
+  //               e.email!.toLowerCase() &&
+  //           passwordController.text.trim().toLowerCase() ==
+  //               e.password!.toLowerCase()) {
+  //         doesExists.add(true);
+  //         currentUser = e;
+  //         loggedInUsers.add(e);
+
+  //         Navigator.pushAndRemoveUntil(
+  //             context,
+  //             MaterialPageRoute(builder: (context) => const BottomNavBar()),
+  //             (route) => false);
+  //       }
+  //     }).toList();
+  //     if (!doesExists.contains(true)) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(content: Text("This Account does not exist")));
+  //     }
+  //   }
+  // }
 }
