@@ -63,43 +63,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
     });
-
-    on<ObsecurePassEvent>((event, emit) {
-      emit(ObsecureState(isObscure: event.isObscure));
-    });
   }
 }
-
-
-
-
-
-/**(OTHER SIGNUP EVENT)
- * if (event.email!.isNotEmpty &&
-                event.name!.isNotEmpty &&
-                event.password!.isNotEmpty) {
-              usersList.map((e) {
-                if (e.email!.contains(event.email!.trim().toLowerCase())) {
-                  doesExists.add(true);
-                }
-              });
-              // .toList();
-
-              if (!doesExists.contains(true)) {
-                currentUser = User(
-                    address: [],
-                    userAvatar: "",
-                    email: event.email!.trim(),
-                    password: event.password!.trim(),
-                    mobileNumber: '',
-                    name: event.name!.trim());
-                loggedInUsers.add(currentUser);
-                usersList.add(currentUser);
-                emit(SignupState());
-              } else {
-                emit(ErrorState("This Email already have an account"));
-              }
-            } else {
-              emit(ErrorState("Please enter all fields"));
-            }
- */

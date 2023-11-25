@@ -3,14 +3,9 @@ import 'package:project_4/widgets/elevated_button.dart';
 
 import 'sign_in_screen.dart';
 
-class StartScreen extends StatefulWidget {
+class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
-  @override
-  State<StartScreen> createState() => _StartScreenState();
-}
-
-class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +26,6 @@ class _StartScreenState extends State<StartScreen> {
                 children: [
                   Text('Universal Timekepers',
                       style: TextStyle(
-
                           color: Colors.white,
                           fontSize: 30,
                           fontFamily: 'PlayfairDisplay')),
@@ -42,7 +36,6 @@ class _StartScreenState extends State<StartScreen> {
                           fontFamily: 'PlayfairDisplay')),
                   Padding(
                     padding: EdgeInsets.only(top: 16),
-
                     child: Text(
                       'it is a long established fact that a reader will',
                       style: TextStyle(
@@ -69,7 +62,6 @@ class _StartScreenState extends State<StartScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
-
         child: CustomElevatedButton(
           text: 'Sign Up',
           color: const Color(0xfffccf78),
@@ -81,7 +73,6 @@ class _StartScreenState extends State<StartScreen> {
                 ));
           },
         ),
-
       ),
     );
   }

@@ -146,38 +146,4 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
-
-  // void checkUserSignUpInfo(BuildContext context) {
-  //   List doesExists = [];
-  //   if (emailController.text.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text("Please write your email")));
-  //   } else if (passwordController.text.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text("Please write your password")));
-  //   } else {
-  //     usersList.map((e) {
-  //       if (e.email!.contains(emailController.text.trim().toLowerCase())) {
-  //         doesExists.add(true);
-  //         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //             content: Text("This Email already have an account")));
-  //       }
-  //     }).toList();
-  //     if (!doesExists.contains(true)) {
-  //       currentUser = User(
-  //           address: [],
-  //           userAvatar: "",
-  //           email: emailController.text.trim(),
-  //           password: passwordController.text.trim(),
-  //           mobileNumber: '',
-  //           name: nameController.text.trim());
-  //       loggedInUsers.add(currentUser);
-  //       usersList.add(currentUser);
-  //       Navigator.pushAndRemoveUntil(
-  //           context,
-  //           MaterialPageRoute(builder: (context) => const BottomNavBar()),
-  //           (route) => false);
-  //     }
-  //   }
-  // }
 }

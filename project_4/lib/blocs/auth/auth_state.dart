@@ -12,8 +12,4 @@ class ErrorState extends AuthState {
   ErrorState(this.message);
 }
 
-class ObsecureState extends AuthState {
-  final bool isObscure;
 
-  ObsecureState({required this.isObscure});
-}
