@@ -8,6 +8,7 @@ import 'package:project_4/models/user_model.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(InitialState()) {
     List doesExists = [];
+    bool isMatched = false;
 
     //Sign up
     on<SignupEvent>((event, emit) {
@@ -18,14 +19,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event.name!.isEmpty) {
         emit(ErrorState("Please enter your name"));
       } else {
-        usersList.map((e) {
-          if (e.email!.contains(event.email!.trim().toLowerCase())) {
-            doesExists.add(true);
+        for (var user in usersList) {
+          if (user.email == event.email) {
+            isMatched = true;
             emit(ErrorState("This Email already have an account"));
           }
-        }).toList();
+        }
       }
-      if (!doesExists.contains(true)) {
+      if (!isMatched) {
         currentUser = User(
             address: [],
             userAvatar: "",
