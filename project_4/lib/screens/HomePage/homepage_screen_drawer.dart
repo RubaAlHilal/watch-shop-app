@@ -49,7 +49,7 @@ class _HomePageScreenDrawerState extends State<HomePageScreenDrawer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ProfileScreen(),
+                          builder: (context) =>  ProfileScreen(),
                         ));
                   },
                   child: const Text("Profile page",

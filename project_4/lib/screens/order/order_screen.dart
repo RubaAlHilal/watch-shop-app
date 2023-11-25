@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_4/blocs/cart_bloc/bloc/cart_bloc.dart';
-import 'package:project_4/blocs/cart_bloc/bloc/cart_state.dart';
+import 'package:project_4/blocs/cart/bloc/cart_bloc.dart';
+import 'package:project_4/blocs/cart/bloc/cart_state.dart';
 
 import 'package:project_4/models/watch_model.dart';
 

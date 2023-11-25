@@ -18,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar>
     const HomePageScreenDrawer(),
     const SearchScreen(),
     const OrderScreen(isBottomNavBar: true),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
   var _selectedTab = _SelectedTab.home;
   void _handleIndexChanged(int i) {
