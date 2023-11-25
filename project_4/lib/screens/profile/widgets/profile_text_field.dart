@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_4/blocs/auth/auth_bloc.dart';
+import 'package:project_4/blocs/auth/auth_event.dart';
 
-class ProfileTextField extends StatefulWidget {
-  const ProfileTextField(
+class ProfileTextField extends StatelessWidget {
+  ProfileTextField(
       {Key? key,
       required this.controller,
       required this.label,
@@ -14,21 +17,17 @@ class ProfileTextField extends StatefulWidget {
   final bool isPassword;
   final TextInputType inputType;
 
-  @override
-  State<ProfileTextField> createState() => _ProfileTextFieldState();
-}
-
-class _ProfileTextFieldState extends State<ProfileTextField> {
   bool isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: TextField(
-        obscureText: (widget.isPassword) ? isObscure : false,
-        controller: widget.controller,
+        obscureText: (isPassword) ? isObscure : false,
+        controller: controller,
         decoration: InputDecoration(
-          label: Text(widget.label),
+          label: Text(label),
           labelStyle: const TextStyle(color: Colors.grey),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
@@ -38,15 +37,18 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
             borderSide: const BorderSide(color: Colors.grey),
           ),
           suffixIcon: Visibility(
-            visible: widget.isPassword,
+            visible: isPassword,
             child: InkWell(
               borderRadius: BorderRadius.circular(35),
               onTap: () {
-                isObscure = !isObscure;
-                setState(() {});
+                context
+                    .read<AuthBloc>()
+                    .add(ObsecurePassEvent(isObscure: !isObscure));
               },
               child: Icon(
-                isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                isObscure
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
                 color: Colors.grey,
               ),
             ),

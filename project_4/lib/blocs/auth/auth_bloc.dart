@@ -63,6 +63,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
     });
+
+    on<ObsecurePassEvent>((event, emit) {
+      emit(ObsecureState(isObscure: event.isObscure));
+    });
   }
 }
 

@@ -14,3 +14,9 @@ class SignupEvent extends AuthEvent {
 
   SignupEvent(this.name, this.email, this.password);
 }
+
+class ObsecurePassEvent extends AuthEvent{
+  final bool isObscure;
+
+  ObsecurePassEvent({required this.isObscure});
+}
