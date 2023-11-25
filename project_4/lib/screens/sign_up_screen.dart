@@ -82,7 +82,13 @@ class SignUpScreen extends StatelessWidget {
                     child: BlocListener<AuthBloc, AuthState>(
                       listener: (context, state) {
                         // DONE!!!!!!!
-                        if (state is ErrorState) {
+                        if (state is SignupState) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BottomNavBar()),
+                              (route) => false);
+                        } else if (state is ErrorState) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -90,19 +96,12 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           );
-                        } else if (state is SignupState) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const BottomNavBar()),
-                              (route) => false);
                         }
                       },
                       child: CustomElevatedButton(
                         text: 'Sign Up',
                         color: const Color(0xfffccf78),
                         onPressedFunc: () {
-                          // DONE!!!!!!!
                           context.read<AuthBloc>().add(SignupEvent(
                               nameController.text,
                               emailController.text,

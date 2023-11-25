@@ -16,20 +16,6 @@ class SignInScreen extends StatelessWidget {
     TextEditingController emailController = TextEditingController(),
         passwordController = TextEditingController();
 
-    // getUsers() {
-    //   if (usersList.isEmpty) {
-    //     for (var users in usersDataSet) {
-    //       usersList.add(User(
-    //           address: users["address"],
-    //           userAvatar: users["userAvatar"],
-    //           email: users["email"],
-    //           password: users["password"],
-    //           mobileNumber: users["mobileNumber"],
-    //           name: users["name"]));
-    //     }
-    //   }
-    // }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -100,7 +86,6 @@ class SignInScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 15),
                     child: BlocListener<AuthBloc, AuthState>(
                       listener: (context, state) {
-                        // DONE
                         if (state is ErrorState) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(state.message)));
@@ -116,7 +101,6 @@ class SignInScreen extends StatelessWidget {
                         text: 'Sign in',
                         color: const Color(0xfffccf78),
                         onPressedFunc: () {
-                          // DONE
                           context.read<AuthBloc>().add(SigninEvent(
                               emailController.text, passwordController.text));
                         },
@@ -167,7 +151,8 @@ class SignInScreen extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SignUpScreen(),
+                                      builder: (context) =>
+                                          const SignUpScreen(),
                                     ));
                               },
                               child: const Text(
