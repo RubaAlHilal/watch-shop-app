@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_4/blocs/cart_bloc/bloc/cart_bloc.dart';
+import 'package:project_4/blocs/cart_bloc/bloc/cart_event.dart';
+import 'package:project_4/blocs/cart_bloc/bloc/cart_state.dart';
 import 'package:project_4/models/watch_model.dart';
 import 'package:project_4/screens/ProductDetailsPage/components/method/add_item_to_list_method.dart';
 import 'package:project_4/screens/ProductDetailsPage/product_details_screen.dart';
@@ -65,22 +69,26 @@ class ProductWidget extends StatelessWidget {
           Positioned(
             top: 305,
             left: 95,
-            child: CircleIcon(
-              iconData: Icons.add,
-              onPressedFunc: () {
-                // add bloc
-                //and put the function inside the on addevent bloc
-                addItemToCart(watch);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OrderScreen(
-                      watch: watch,
-                      isBottomNavBar: false,
+            child: BlocListener<CartBloc, CartState>(
+              listener: (context, state) {
+                if (state is UpdateCartState) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderScreen(
+                        watch: watch,
+                        isBottomNavBar: false,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
+              child: CircleIcon(
+                iconData: Icons.add,
+                onPressedFunc: () {
+                  context.read<CartBloc>().add(AddItemEvent(watch));
+                },
+              ),
             ),
           ),
         ],

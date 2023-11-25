@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_4/blocs/auth/auth_event.dart';
 import 'package:project_4/blocs/auth/auth_state.dart';
 import 'package:project_4/data/global_data.dart';
-import 'package:project_4/data/user_data_set.dart';
+
 import 'package:project_4/models/user_model.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

@@ -7,26 +7,30 @@ import 'components/app_bar_widget.dart';
 import 'components/category_component.dart';
 import 'components/product_list_widget.dart';
 
-class HomePageScreen extends StatefulWidget {
+class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
-  @override
-  State<HomePageScreen> createState() => _HomePageScreenState();
-}
+  // edit this!!!!!!!!!!!!!!!
+  // void initState() {
+  //   if (watchesList.isEmpty) {
+  //     for (var element in watches) {
+  //       watchesList.add(Watch.fromJson(element));
+  //     }
+  //   }
+  //   super.initState();
+  // }
 
-class _HomePageScreenState extends State<HomePageScreen> {
-  @override
-  void initState() {
+  getData() {
     if (watchesList.isEmpty) {
       for (var element in watches) {
         watchesList.add(Watch.fromJson(element));
       }
     }
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    getData();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: homeAppBarWidget(context: context),

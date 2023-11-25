@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_4/blocs/cart_bloc/bloc/cart_bloc.dart';
+import 'package:project_4/blocs/cart_bloc/bloc/cart_event.dart';
+import 'package:project_4/blocs/cart_bloc/bloc/cart_state.dart';
 import 'package:project_4/models/watch_model.dart';
 import 'package:project_4/widgets/circle_icon.dart';
 import '../product_details_screen.dart';
@@ -39,11 +43,14 @@ class _DetailsPageMainWidgetState extends State<DetailsPageMainWidget> {
                           Text(
                             widget.watch.name,
                             style: const TextStyle(
-                                fontSize: 24, color: Color(0xff294475), fontFamily: 'DMSerifText'),
+                                fontSize: 24,
+                                color: Color(0xff294475),
+                                fontFamily: 'DMSerifText'),
                           ),
                           Text(
                             "₹${widget.watch.price}",
-                            style: const TextStyle(fontSize: 24, fontFamily: 'DMSerifText'),
+                            style: const TextStyle(
+                                fontSize: 24, fontFamily: 'DMSerifText'),
                           ),
                         ],
                       ),
@@ -51,30 +58,42 @@ class _DetailsPageMainWidgetState extends State<DetailsPageMainWidget> {
                       Row(
                         children: [
                           CircleIcon(
+                              //decrease event
                               iconData: Icons.remove,
                               onPressedFunc: () {
                                 if (count == 1) {
                                 } else {
                                   count--;
                                 }
-                                setState(() {});
+                                context
+                                    .read<CartBloc>()
+                                    .add(DecreseEvent(widget.watch));
                               }),
                           const SizedBox(
                             width: 8,
                           ),
-                          Text(
-                            //quantity
-                            "$count",
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          BlocBuilder<CartBloc, CartState>(
+                            builder: (context, state) {
+                              return Text(
+                                //quantity
+                                "$state.count",
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w500),
+                              );
+                            },
                           ),
                           const SizedBox(
                             width: 8,
                           ),
                           CircleIcon(
+                              //increase event
                               iconData: Icons.add,
                               onPressedFunc: () {
                                 count++;
-                                setState(() {});
+
+                                context
+                                    .read<CartBloc>()
+                                    .add(IncreseEvent(widget.watch));
                               }),
                         ],
                       ),
