@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_4/blocs/cart/bloc/cart_bloc.dart';
 import 'package:project_4/blocs/cart/bloc/cart_event.dart';
 import 'package:project_4/blocs/cart/bloc/cart_state.dart';
-import 'package:project_4/data/global_data.dart';
 import 'package:project_4/models/watch_model.dart';
 import 'package:project_4/widgets/circle_icon.dart';
 import 'product_background_widget.dart';
